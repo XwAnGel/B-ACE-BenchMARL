@@ -1,0 +1,152 @@
+[
+    {
+        "dShot": 1.01,
+        "lCrank": 1.03,
+        "lBreak": 0.45
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 1.03,
+        "lBreak": 0.45
+    },
+    {
+        "dShot": 1.01,
+        "lCrank": 1.03,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 1.03,
+        "lBreak": 0.29
+    },
+    {
+        "dShot": 0.75,
+        "lCrank": 1.03,
+        "lBreak": 0.45
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.52,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 1.01,
+        "lCrank": 0.44,
+        "lBreak": 0.45
+    },
+    {
+        "dShot": 1.01,
+        "lCrank": 0.94,
+        "lBreak": 0.29
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 1.1,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.52,
+        "lCrank": 0.52,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.71,
+        "lCrank": 0.51,
+        "lBreak": 0.37
+    },
+    {
+        "dShot": 0.52,
+        "lCrank": 0.44,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.52,
+        "lCrank": 1.03,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 1.08,
+        "lCrank": 0.36,
+        "lBreak": 0.45
+    },
+    {
+        "dShot": 0.67,
+        "lCrank": 0.44,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.45,
+        "lCrank": 0.52,
+        "lBreak": 0.21
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.76,
+        "lBreak": 0.29
+    },
+    {
+        "dShot": 0.52,
+        "lCrank": 0.76,
+        "lBreak": 0.29
+    },
+    {
+        "dShot": 1.01,
+        "lCrank": 1.1,
+        "lBreak": 0.29
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.52,
+        "lBreak": 0.45
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.96,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.59,
+        "lBreak": 0.29
+    },
+    {
+        "dShot": 0.67,
+        "lCrank": 1.1,
+        "lBreak": 0.29
+    },
+    {
+        "dShot": 0.52,
+        "lCrank": 0.76,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.44,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.52,
+        "lCrank": 1.1,
+        "lBreak": 0.25
+    },
+    {
+        "dShot": 1.01,
+        "lCrank": 0.35,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.82,
+        "lBreak": 0.35
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.44,
+        "lBreak": 0.29
+    },
+    {
+        "dShot": 0.99,
+        "lCrank": 0.94,
+        "lBreak": 0.35
+    }
+]

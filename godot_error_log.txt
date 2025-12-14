@@ -1,0 +1,24 @@
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:360)
+/home/angel/miniconda3/envs/b-ace/lib/python3.11/site-packages/torchrl/data/tensor_specs.py:7085: DeprecationWarning: The CompositeSpec has been deprecated and will be removed in v0.8. Please use Composite instead.
+  warnings.warn(
+Initializing Godot environment...
+waiting for remote GODOT connection on port 12806
+connection established
+action space {'input': {'action_type': 'continuous', 'size': 4}}
+observation space {'obs': {'size': [41], 'space': 'box'}}
+
+Running 0 / 3000 steps
+Episode finished.
+
+--- 脚本运行结束，Godot 窗口保持打开 ---
+按 Enter 键关闭 Godot 窗口并结束 Python 脚本...Traceback (most recent call last):
+  File "/home/angel/B-ACE-main/./run_simple_example.py", line 80, in <module>
+    input("按 Enter 键关闭 Godot 窗口并结束 Python 脚本...")
+KeyboardInterrupt
+exit was not clean, using atexit to close env
+close message sent
+Godot Engine v4.4.stable.official.4c311cbee - https://godotengine.org
+OpenGL API 3.3 (Core Profile) Mesa 21.2.6 - Compatibility - Using Device: Microsoft - D3D12 (NVIDIA GeForce RTX 4060 Laptop GPU)
+
+received close message, closing game
