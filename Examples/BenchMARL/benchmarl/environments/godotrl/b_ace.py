@@ -3,6 +3,7 @@ from typing import Callable, Dict, List, Optional
 import torch
 from torchrl.data import Composite, Unbounded
 from torchrl.envs import DoubleToFloat, EnvBase, Transform
+from torchrl.envs.transforms import DoubleToFloat, ObservationNorm, Compose
 from benchmarl.environments.common import Task, TaskClass
 from benchmarl.utils import DEVICE_TYPING
 
@@ -18,6 +19,13 @@ class B_ACE(TaskClass):
         if hasattr(env, "group_map"):
             return env.group_map
         return {"blue": ["agent_0"]} # 简化 Fallback
+    
+    def get_env_transforms(self, env: EnvBase) -> List[Transform]:
+        return [
+            DoubleToFloat(),
+            # 添加观测值标准化。in_keys 必须包含适配器中定义的所有 observation key
+            ObservationNorm(in_keys=["observation"], standard_normal=True) 
+        ]
 
     def get_env_fun(
         self,

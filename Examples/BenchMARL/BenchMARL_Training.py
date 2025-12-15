@@ -133,7 +133,7 @@ if __name__ == "__main__":
     experiment_config.train_device = 'cpu'    
     
     # 训练时长
-    experiment_config.max_n_frames = int(3e6)
+    experiment_config.max_n_frames = int(1e7)
     experiment_config.max_n_iters = 500
     experiment_config.checkpoint_interval = 120000 
     
@@ -150,8 +150,8 @@ if __name__ == "__main__":
     
     # On-Policy 配置 (如 IPPO, MAPPO)
     experiment_config.on_policy_collected_frames_per_batch = 12000 
-    experiment_config.on_policy_n_minibatch_iters = 4 
-    experiment_config.on_policy_minibatch_size = 1024 
+    experiment_config.on_policy_n_minibatch_iters = 5 
+    experiment_config.on_policy_minibatch_size = 2048 
     
     # Off-Policy 配置 (如 ISAC, MADDPG, QMIX)
     experiment_config.off_policy_collected_frames_per_batch = 12000
@@ -177,6 +177,22 @@ if __name__ == "__main__":
     # 默认覆盖
     b_ace_config["EnvConfig"]["env_path"] = "bin/B_ACE_v0.1.exe" 
     b_ace_config["EnvConfig"]["renderize"] = 0 
+
+    # 1. 增大“持续锁定”的奖励 (原 0.001 -> 0.01 或 0.05)
+    # 只要敌人处于攻击锥内，就持续给分。这能让 AI 快速学会“机头对准敌人”。
+    b_ace_config["EnvConfig"]["RewardsConfig"]["keep_track_factor"] = 0.02 
+    
+    # 2. 稍微增大“任务/存活”奖励 (原 0.001 -> 0.005)
+    # 鼓励它们活久一点，不要开局就撞地。
+    b_ace_config["EnvConfig"]["RewardsConfig"]["mission_factor"] = 0.005
+
+    # 3. 减小“导弹脱靶”惩罚 (原 -0.5 -> -0.1)
+    # 6v6 场面混乱，初期很难命中。如果惩罚太重，AI 会学会“永远不开火”来避免扣分。
+    b_ace_config["EnvConfig"]["RewardsConfig"]["missile_miss_factor"] = -0.1
+    
+    # 4. 保持高额击杀奖励 (引导最终目标)
+    # 这个保持 3.0 或增加到 5.0 都可以，确保击杀是最赚的。
+    b_ace_config["EnvConfig"]["RewardsConfig"]["hit_enemy_factor"] = 4.0
     
     # 从命令行更新配置
     if args.config:
@@ -230,7 +246,7 @@ if __name__ == "__main__":
     critic_model_config = MlpConfig.get_from_yaml()
 
     model_config.layers = [256, 256, 256]
-    critic_model_config.layers = [256, 256, 256]
+    critic_model_config.layers = [512, 256, 256]
 
     # --- 4. 实验运行 ---
     
