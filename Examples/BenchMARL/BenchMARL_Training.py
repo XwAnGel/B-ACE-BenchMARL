@@ -129,8 +129,10 @@ if __name__ == "__main__":
     experiment_config = ExperimentConfig.get_from_yaml() 
 
     # 训练/采样设备
-    experiment_config.sampling_device = 'cpu'
-    experiment_config.train_device = 'cpu'    
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"Training Device set to: {device}")
+    experiment_config.sampling_device = device
+    experiment_config.train_device = device    
     
     # 训练时长
     experiment_config.max_n_frames = int(1e7)
@@ -164,7 +166,7 @@ if __name__ == "__main__":
     experiment_config.off_policy_n_envs_per_worker = 4
     experiment_config.on_policy_n_envs_per_worker = 4
     
-    experiment_config.lr = 0.000005
+    experiment_config.lr = 0.000001
     experiment_config.save_folder = "Results" 
     
     # --- 2. 任务配置 (Task Config) ---
@@ -240,10 +242,38 @@ if __name__ == "__main__":
         algorithm_config = MasacConfig.get_from_yaml()
     else: 
         raise ValueError(f"Unknown algorithm: {args.algorithm}")
+    
+    print(f"Configuring Gradient Clipping for {alg}...")
+    
+    # 对于 PPO/MAPPO 类算法 (On-Policy)
+    if hasattr(algorithm_config, "max_grad_norm"):
+        algorithm_config.max_grad_norm = 1.0 # 允许的最大梯度范数，通常 1.0 到 10.0
+        print(" -> Set max_grad_norm = 1.0")
+        
+    if hasattr(algorithm_config, "clip_epsilon"):
+        algorithm_config.clip_epsilon = 0.2 # PPO 的截断范围，防止策略更新太猛
+        print(" -> Set clip_epsilon = 0.2")
+
+    # 对于 QMIX/DDPG 类算法 (Off-Policy) 有些可能叫 clip_grad_val
+    if hasattr(algorithm_config, "clip_grad_val"):
+        algorithm_config.clip_grad_val = 1.0
+        print(" -> Set clip_grad_val = 1.0")
+    
+    if hasattr(algorithm_config, "entropy_coef"):
+        algorithm_config.entropy_coef = 0.0  # <--- 新增这行！强制为 0
+        print(" -> Set entropy_coef = 0.0 (Prevent Variance Explosion)")
+
+    # 【额外建议】：如果用 MAPPO，开启 Value Function 的标准化有助于收敛
+    if hasattr(algorithm_config, "standardize_advantages"):
+        algorithm_config.standardize_advantages = True
+        print(" -> Enabled advantage standardization")
         
     # 模型配置
     model_config = MlpConfig.get_from_yaml()
     critic_model_config = MlpConfig.get_from_yaml()
+
+    model_config.layer_normalization = True     # <--- 加上这行
+    critic_model_config.layer_normalization = True # <--- 加上这行
 
     model_config.layers = [256, 256, 256]
     critic_model_config.layers = [512, 256, 256]
