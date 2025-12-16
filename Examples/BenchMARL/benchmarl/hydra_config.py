@@ -6,6 +6,8 @@
 import importlib
 from dataclasses import is_dataclass
 from pathlib import Path
+from omegaconf import DictConfig
+from hydra import compose, initialize, initialize_config_dir
 
 from benchmarl.algorithms.common import AlgorithmConfig
 from benchmarl.environments import task_config_registry, TaskClass

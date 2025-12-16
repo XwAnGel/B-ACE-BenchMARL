@@ -166,7 +166,7 @@ if __name__ == "__main__":
     experiment_config.off_policy_n_envs_per_worker = 4
     experiment_config.on_policy_n_envs_per_worker = 4
     
-    experiment_config.lr = 0.000001
+    experiment_config.lr = 5e-5
     experiment_config.save_folder = "Results" 
     
     # --- 2. 任务配置 (Task Config) ---
@@ -180,21 +180,6 @@ if __name__ == "__main__":
     b_ace_config["EnvConfig"]["env_path"] = "bin/B_ACE_v0.1.exe" 
     b_ace_config["EnvConfig"]["renderize"] = 0 
 
-    # 1. 增大“持续锁定”的奖励 (原 0.001 -> 0.01 或 0.05)
-    # 只要敌人处于攻击锥内，就持续给分。这能让 AI 快速学会“机头对准敌人”。
-    b_ace_config["EnvConfig"]["RewardsConfig"]["keep_track_factor"] = 0.02 
-    
-    # 2. 稍微增大“任务/存活”奖励 (原 0.001 -> 0.005)
-    # 鼓励它们活久一点，不要开局就撞地。
-    b_ace_config["EnvConfig"]["RewardsConfig"]["mission_factor"] = 0.005
-
-    # 3. 减小“导弹脱靶”惩罚 (原 -0.5 -> -0.1)
-    # 6v6 场面混乱，初期很难命中。如果惩罚太重，AI 会学会“永远不开火”来避免扣分。
-    b_ace_config["EnvConfig"]["RewardsConfig"]["missile_miss_factor"] = -0.1
-    
-    # 4. 保持高额击杀奖励 (引导最终目标)
-    # 这个保持 3.0 或增加到 5.0 都可以，确保击杀是最赚的。
-    b_ace_config["EnvConfig"]["RewardsConfig"]["hit_enemy_factor"] = 4.0
     
     # 从命令行更新配置
     if args.config:
@@ -247,8 +232,8 @@ if __name__ == "__main__":
     
     # 对于 PPO/MAPPO 类算法 (On-Policy)
     if hasattr(algorithm_config, "max_grad_norm"):
-        algorithm_config.max_grad_norm = 1.0 # 允许的最大梯度范数，通常 1.0 到 10.0
-        print(" -> Set max_grad_norm = 1.0")
+        algorithm_config.max_grad_norm = 10.0 # 允许的最大梯度范数，通常 1.0 到 10.0
+        print(" -> Set max_grad_norm = 10.0")
         
     if hasattr(algorithm_config, "clip_epsilon"):
         algorithm_config.clip_epsilon = 0.2 # PPO 的截断范围，防止策略更新太猛
@@ -260,13 +245,17 @@ if __name__ == "__main__":
         print(" -> Set clip_grad_val = 1.0")
     
     if hasattr(algorithm_config, "entropy_coef"):
-        algorithm_config.entropy_coef = 0.0  # <--- 新增这行！强制为 0
-        print(" -> Set entropy_coef = 0.0 (Prevent Variance Explosion)")
+        algorithm_config.entropy_coef = 0.005  # <--- 新增这行！强制为 0
+        print(" -> Set entropy_coef = 0.005 (Prevent Variance Explosion)")
 
     # 【额外建议】：如果用 MAPPO，开启 Value Function 的标准化有助于收敛
     if hasattr(algorithm_config, "standardize_advantages"):
         algorithm_config.standardize_advantages = True
         print(" -> Enabled advantage standardization")
+
+    # 确保 Value Loss 被截断，防止 Critic 传回巨大的错误梯度
+    if hasattr(algorithm_config, "clip_value_loss"):
+        algorithm_config.clip_value_loss = True
         
     # 模型配置
     model_config = MlpConfig.get_from_yaml()
