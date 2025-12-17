@@ -179,6 +179,10 @@ if __name__ == "__main__":
     # 默认覆盖
     b_ace_config["EnvConfig"]["env_path"] = "bin/B_ACE_v0.1.exe" 
     b_ace_config["EnvConfig"]["renderize"] = 0 
+    b_ace_config["EnvConfig"]["RewardsConfig"]["keep_track_factor"] = 0.02 
+    b_ace_config["EnvConfig"]["RewardsConfig"]["mission_factor"] = 0.005
+    b_ace_config["EnvConfig"]["RewardsConfig"]["missile_miss_factor"] = -0.1
+    b_ace_config["EnvConfig"]["RewardsConfig"]["hit_enemy_factor"] = 4.0
 
     
     # 从命令行更新配置
@@ -245,7 +249,7 @@ if __name__ == "__main__":
         print(" -> Set clip_grad_val = 1.0")
     
     if hasattr(algorithm_config, "entropy_coef"):
-        algorithm_config.entropy_coef = 0.005  # <--- 新增这行！强制为 0
+        algorithm_config.entropy_coef = 0.005  
         print(" -> Set entropy_coef = 0.005 (Prevent Variance Explosion)")
 
     # 【额外建议】：如果用 MAPPO，开启 Value Function 的标准化有助于收敛

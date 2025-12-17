@@ -40,8 +40,8 @@ def evaluate_model(checkpoint_path: str):
     env_config = experiment.task.config["EnvConfig"]
     
     # 【Windows 专属配置】
-    env_config["renderize"] = 0       # ✅ 开启画面！
-    env_config["speed_up"] = 50000        # ✅ 1倍速 (真实速度)，方便肉眼观察
+    env_config["renderize"] = 1       # ✅ 开启画面！
+    env_config["speed_up"] = 50        # ✅ 1倍速 (真实速度)，方便肉眼观察
     env_config["port"] = 22000        # 独立端口
     
     print("\n--- Starting Windows Evaluation (Visual Mode) ---")
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     # 硬编码路径方便测试，或者继续用 argparse
     # 这里为了方便你直接复制运行，我保留 argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint", type=str, default=r"E:\angel\B-ACE-main\Results\mappo_b_ace_mlp__4a1e1b59_25_12_15-20_53_27\checkpoints\checkpoint_360000.pt", help="Path to checkpoint")
+    parser.add_argument("--checkpoint", type=str, default=r"E:\angel\B-ACE-main\Results\masac_b_ace_mlp__1c9323d7_25_12_16-22_12_55\checkpoints\checkpoint_5148000.pt", help="Path to checkpoint")
     args = parser.parse_args()
     
     evaluate_model(args.checkpoint)
